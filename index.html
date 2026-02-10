@@ -4,107 +4,119 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>정윤이의 화해신청</title>
-
 <meta property="og:title" content="정윤이의 화해신청">
 <meta property="og:description" content="정윤이의 화해신청">
 <meta property="og:type" content="website">
-
 <style>
-  body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: background 1s;
-    overflow: hidden;
-  }
+body {
+  margin:0;
+  font-family:'Arial',sans-serif;
+  text-align:center;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  transition:background 1s;
+  overflow:hidden;
+  background-size:cover;
+}
 
-  h1 { font-size: 25px; line-height:1.2; animation: fadeIn 1s forwards; opacity:0; }
-  p { font-size: 23px; line-height:1.5; white-space: pre-line; animation: fadeIn 1s forwards; opacity:0; }
-  button {
-    padding:0.5em 1em;
-    font-size:21px;
-    margin:1em;
-    cursor:pointer;
-    border-radius:10px;
-    border:none;
-    transition: all 0.2s;
-  }
-  button:hover { transform: scale(1.1); background-color: #ffd6e0; }
+h1 { font-size:23px; line-height:1.2; animation:fadeIn 1s forwards; opacity:0; }
+p { font-size:21px; line-height:1.5; white-space:pre-line; animation:fadeIn 1s forwards; opacity:0; }
+button {
+  padding:0.5em 1em; font-size:21px; margin:1em;
+  cursor:pointer; border-radius:10px; border:none;
+  transition: all 0.2s;
+}
+button:hover { transform: scale(1.1); background-color:#ffd6e0; }
 
-  .heart {
-    position:absolute;
-    animation: float 2s linear forwards, rotate 1.5s linear infinite;
-    pointer-events:none;
-  }
-  @keyframes float {
-    0% { transform: translateY(0) scale(1); opacity:1; }
-    50% { transform: translateY(-150px) scale(1.2); opacity:0.7; }
-    100% { transform: translateY(-300px) scale(1.5); opacity:0; }
-  }
-  @keyframes rotate { 0% { transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+.heart { position:absolute; animation: float 2s linear forwards, rotate 1.5s linear infinite; pointer-events:none; }
+@keyframes float { 0%{transform:translateY(0) scale(1); opacity:1} 50%{transform:translateY(-150px) scale(1.2); opacity:0.7} 100%{transform:translateY(-300px) scale(1.5); opacity:0} }
+@keyframes rotate {0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);}}
 
-  .fade-in { animation: fadeIn 1s forwards; opacity:0; }
-  @keyframes fadeIn { to { opacity:1; } }
+.fade-in { animation:fadeIn 1s forwards; opacity:0;}
+@keyframes fadeIn { to{opacity:1;} }
 
-  #finalMessage {
-    position:absolute;
-    top:30%;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:55px;
-    color:#ff3366;
-    font-weight:bold;
-    white-space: pre-line;
-    pointer-events:none;
-    text-align:center;
-  }
+/* 비 내리는 효과 */
+.rain { position:absolute; width:2px; height:15px; background:rgba(255,255,255,0.7); animation:fall linear infinite; }
+@keyframes fall { 0%{transform:translateY(-20px);} 100%{transform:translateY(100vh);} }
+
+/* 번개 효과 */
+.lightning { position:absolute; width:100%; height:100%; top:0; left:0; background:white; opacity:0; animation:flash 1s ease-in-out; }
+@keyframes flash { 0%,20%,50%,80%,100%{opacity:0;} 25%,55%{opacity:0.7;} 30%,60%{opacity:0;} }
+
+/* 마지막 메시지 */
+#finalMessage {
+  position:absolute; top:30%; left:50%;
+  transform:translateX(-50%);
+  font-size:54px;
+  color:#ff3366;
+  font-weight:bold;
+  white-space: pre-line;
+  pointer-events:none;
+  text-align:center;
+}
+
+/* 은은한 하트 배경 */
+.bgHearts { position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none; }
+.bgHearts div { position:absolute; font-size:15px; color:rgba(255,50,100,0.1); }
 </style>
 </head>
 <body>
 <div id="scene"></div>
-
+<div id="bgHeartsContainer" class="bgHearts"></div>
 <script>
-let step = 0;
-let stepBackup = 0;
+let step=0; let stepBackup=0;
 
-const scenes = [
+// 배경용 은은한 하트
+function generateBackgroundHearts(){
+  const container=document.getElementById('bgHeartsContainer');
+  container.innerHTML='';
+  for(let i=0;i<100;i++){
+    const heart=document.createElement('div');
+    heart.innerText='💖';
+    heart.style.left=Math.random()*100+'%';
+    heart.style.top=Math.random()*100+'%';
+    heart.style.fontSize=(10+Math.random()*20)+'px';
+    container.appendChild(heart);
+  }
+}
+generateBackgroundHearts();
+
+const scenes=[
   { html:`<h1>오빠 우리 화해하자</h1>
 <p>나도 나를 다 모르면서 이해받고 싶어만 한 것 같아
 노력해주는 거 알면서도
 이기적으로 행동해서 미안해</p>
 <button onclick="next()">어디 더 말해봐</button>
-<button onclick="showFirstReject()">아니 아직 시간이 더 필요해</button>`,
-    bg:'linear-gradient(to bottom, #a0cfff, #ffffff)'
+<button onclick="showFirstReject()">아직 시간이 더 필요해</button>`,
+    bg:'linear-gradient(to bottom,#a0cfff,#ffffff)'
   },
   { html:`<h1>서로 잘 노력해보자</h1>
 <p>방법을 찾고 이해해보려고 해보자
 고집부리고 자존심 부리지 않을게</p>
 <button onclick="next()">응 나도 노력할게</button>
 <button onclick="showSecondReject()">아니야 나는 더 못해</button>`,
-    bg:'linear-gradient(to bottom, #c6f1d6, #f0fff4)'
+    bg:'linear-gradient(to bottom,#c6f1d6,#f0fff4)'
   },
   { html:`<h1>그래서 말인데</h1>
 <p>우리 다시 잘 지내볼 수 있을까?</p>
 <button id="yes" onclick="next()">웅 나도 미안해 사랑해 💖</button>
 <button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>`,
-    bg:'linear-gradient(to bottom, #fff0e0, #ffe5c0)'
+    bg:'linear-gradient(to bottom,#fff0e0,#ffe5c0)'
   },
   { html:`<h1>웅 나도 사랑해 이기호</h1>
 <p>앞으로도 잘 부탁해
 앞으로 나도 잘할게</p>
 <button id="yes" onclick="spawnHearts()">💖 하트 폭죽 💖</button>
 <button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>`,
-    bg:'linear-gradient(to bottom, #ffd6e0, #ffb6d6)'
+    bg:'linear-gradient(to bottom,#ffd6e0,#ffb6d6)'
   }
 ];
 
 function render(){
-  document.getElementById("scene").innerHTML = scenes[step].html;
-  document.body.style.background = scenes[step].bg;
+  document.getElementById("scene").innerHTML=scenes[step].html;
+  document.body.style.background=scenes[step].bg;
 }
 
 // 다음 단계
@@ -112,13 +124,11 @@ function next(){ if(step<scenes.length-1) step++; render(); }
 
 // NO 버튼 도망
 function moveNo(){
-  const noBtn = document.getElementById("no");
-  if(!noBtn) return;
-  const x = Math.random()*(window.innerWidth-120);
-  const y = Math.random()*(window.innerHeight-60);
+  const noBtn=document.getElementById("no"); if(!noBtn) return;
+  const x=Math.random()*(window.innerWidth-120);
+  const y=Math.random()*(window.innerHeight-60);
   noBtn.style.position="absolute";
-  noBtn.style.left=x+"px";
-  noBtn.style.top=y+"px";
+  noBtn.style.left=x+"px"; noBtn.style.top=y+"px";
 }
 
 // 돌아가기
@@ -126,52 +136,73 @@ function backToStep(num){ step=num; render(); }
 
 // 첫 단계 거절
 function showFirstReject(){
-  stepBackup = step;
+  stepBackup=step;
   document.getElementById("scene").innerHTML=`
-    <h1>아니야 😢</h1>
-    <p>더 들어주면 좋겠어 제발... 너무 슬퍼요...</p>
+    <h1 style="color:white;">아니야 😢</h1>
+    <p style="color:white;">더 들어주면 좋겠어 제발 🥲🙏</p>
     <button onclick="backToStep(stepBackup)">돌아가기</button>`;
-  document.body.style.background='linear-gradient(to bottom, #555555, #222222)';
+  document.body.style.background='#111';
+  addRain();
 }
 
 // 두 번째 단계 거절
 function showSecondReject(){
-  stepBackup = step;
+  stepBackup=step;
   document.getElementById("scene").innerHTML=`
-    <h1>아니야 😢</h1>
-    <p>너는 할 수 있어... 너무 슬퍼요 😭</p>
+    <h1 style="color:white;">아니야 😢</h1>
+    <p style="color:white;">아니야 할 수 있잖아 🥲🥲🙏🙏</p>
     <button onclick="backToStep(stepBackup)">돌아가기</button>`;
-  document.body.style.background='linear-gradient(to bottom, #555555, #222222)';
+  document.body.style.background='#111';
+  addLightning();
 }
 
 // 하트 폭죽
 function spawnHearts(){
-  // 메시지 중앙 표시
-  document.getElementById("scene").innerHTML=""; // 기존 텍스트 제거
-  const message = document.createElement("div");
+  document.getElementById("scene").innerHTML="";
+  const message=document.createElement("div");
   message.id="finalMessage";
+  message.style.fontSize='54px'; // 글자 -1t
   message.innerText="정윤이에게\n화해의 손길을\n내밀어주세요";
   document.body.appendChild(message);
 
-  // 하트 폭죽 생성
   for(let i=0;i<80;i++){
     const heart=document.createElement("div");
     heart.className="heart";
     heart.style.left=Math.random()*100+"vw";
     heart.style.top=Math.random()*100+"vh";
     heart.style.fontSize=(23+Math.random()*32)+"px"; // 23~55
-    const colors = ['#ff3366','#ff6699','#ff99cc','#ff99ff','#ffb6d6'];
-    heart.style.color = colors[Math.floor(Math.random()*colors.length)];
+    const colors=['#ff3366','#ff6699','#ff99cc','#ff99ff','#ffb6d6'];
+    heart.style.color=colors[Math.floor(Math.random()*colors.length)];
     heart.innerText="💖";
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(),2000+Math.random()*1500);
   }
 }
 
+// 비 내리는 애니메이션
+function addRain(){
+  for(let i=0;i<100;i++){
+    const drop=document.createElement('div');
+    drop.className='rain';
+    drop.style.left=Math.random()*100+'%';
+    drop.style.animationDuration=(0.5+Math.random()*1.5)+'s';
+    document.body.appendChild(drop);
+  }
+}
+
+// 번개 애니메이션
+function addLightning(){
+  const flash=document.createElement('div');
+  flash.className='lightning';
+  document.body.appendChild(flash);
+  setTimeout(()=>flash.remove(),1000);
+}
+
 render();
 </script>
 </body>
 </html>
+
 
 
 
