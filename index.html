@@ -1,194 +1,118 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>우리 화해하자</title>
-
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      transition: background 1s ease;
-      overflow: hidden;
-    }
-
-    #scene {
-      padding-top: 120px;
-    }
-
-    h1 {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-
-    button {
-      font-size: 16px;
-      padding: 14px 26px;
-      margin: 10px;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-
-    /* 🌤 하늘하늘 */
-    .sky {
-      background: linear-gradient(#cce7ff, #fefefe);
-    }
-
-    /* 🌲 숲속 */
-    .forest {
-      background: linear-gradient(#cfe8c9, #f7fff2);
-    }
-
-    /* 🍷 레스토랑 */
-    .restaurant {
-      background: linear-gradient(#2b2b2b, #4b3b3b);
-      color: #fff;
-    }
-
-    .restaurant button {
-      background-color: #bfa37a;
-      color: #000;
-    }
-
-    /* 💖 하트 난무 */
-    .love {
-      background: radial-gradient(circle, #ffe6f0, #ffb6c1);
-    }
-
-    .heart {
-      position: absolute;
-      bottom: 0;
-      font-size: 24px;
-      animation: floatUp 4s linear infinite;
-    }
-
-    @keyframes floatUp {
-      from {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-100vh) scale(1.8);
-        opacity: 0;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>화해 신청</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: background 1s;
+  }
+  h1 {
+    font-size: 6vw; /* 반응형 글자 */
+  }
+  p {
+    font-size: 4vw;
+  }
+  button {
+    padding: 1em 2em;
+    font-size: 4vw;
+    margin: 1em;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    transition: all 0.2s;
+  }
+  button:hover {
+    transform: scale(1.1);
+  }
+</style>
 </head>
-
 <body>
-  <div id="scene"></div>
+<div id="scene"></div>
 
-  <script>
-    function go(step) {
-      const body = document.body;
-      body.className = "";
+<script>
+let step = 0;
 
-      if (step === 0) body.classList.add("sky");
-      if (step === 1) body.classList.add("forest");
-      if (step === 3) body.classList.add("restaurant");
-      if (step === 5) {
-        body.classList.add("love");
-        startHearts();
-      }
+const scenes = [
+  {
+    html: `
+      <h1>오빠 우리 화해하자</h1>
+      <p>나도 나를 다 모르면서 이해받고 싶어만 한 것 같아<br>
+      노력해주는 거 알면서도 이기적으로 행동해서 미안해</p>
+      <button onclick="next()">어디 더 말해봐</button>
+      <button onclick="backToStart()">아니 아직 시간이 더 필요해</button>
+    `,
+    bg: 'linear-gradient(to bottom, #a0cfff, #ffffff)' // 하늘 하늘
+  },
+  {
+    html: `
+      <h1>서로 잘 노력해보자</h1>
+      <p>방법을 찾고 이해해보려고 해보자<br>
+      고집부리고 자존심 부리지 않을게</p>
+      <button onclick="next()">응 나도 노력할게</button>
+      <button onclick="backToScene(0)">아니 나는 더 못하겠어</button>
+    `,
+    bg: 'linear-gradient(to bottom, #c6f1d6, #f0fff4)' // 숲속 바람
+  },
+  {
+    html: `
+      <h1>그래서 말인데</h1>
+      <p>우리 다시 잘 지내볼 수 있을까?</p>
+      <button id="yes" onclick="next()">웅 나도 미안해 사랑해 💖</button>
+      <button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>
+    `,
+    bg: 'linear-gradient(to bottom, #fff0e0, #ffe5c0)' // 레스토랑 분위기
+  },
+  {
+    html: `
+      <h1>웅 나도 사랑해 이기호</h1>
+      <p>앞으로도 잘 부탁해<br>앞으로 나도 잘할게</p>
+      <button id="yes" onclick="next()">💖 하트 뿅뿅 💖</button>
+      <button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>
+    `,
+    bg: 'linear-gradient(to bottom, #ffd6e0, #ffb6d6)' // 하트 뿅뿅
+  }
+];
 
-      document.getElementById("scene").innerHTML = scenes[step];
-    }
+function render() {
+  document.getElementById("scene").innerHTML = scenes[step].html;
+  document.body.style.background = scenes[step].bg;
+}
 
-    function moveNo() {
-      const noBtn = document.getElementById("no");
-      const x = Math.random() * (window.innerWidth - 120);
-      const y = Math.random() * (window.innerHeight - 120);
-      noBtn.style.position = "absolute";
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    }
+function next() {
+  if(step < scenes.length-1) step++;
+  render();
+}
 
-    function startHearts() {
-      setInterval(() => {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerText = "💗";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = 3 + Math.random() * 2 + "s";
-        document.body.appendChild(heart);
+function moveNo() {
+  const noBtn = document.getElementById("no");
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 60);
+  noBtn.style.position = "absolute";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
 
-        setTimeout(() => {
-          heart.remove();
-        }, 5000);
-      }, 300);
-    }
+// 뒤로 돌아가기 버튼
+function backToStart() {
+  step = 0;
+  render();
+}
+function backToScene(num) {
+  step = num;
+  render();
+}
 
-    const scenes = [
-      /* 0️⃣ 우리 화해하자 */
-      `
-        <h1>오빠 우리 화해하자</h1>
-        <p>
-          나도 나를 다 모르면서 이해받고 싶어만 한 것 같아<br>
-          노력해주는 거 알면서도 이기적으로 행동해서 미안해
-        </p>
-        <button onclick="go(1)">어디 더 말해봐</button>
-        <button onclick="go(2)">아니 아직 시간이 더 필요해</button>
-      `,
-
-      /* 1️⃣ 서로 잘 노력해보자 */
-      `
-        <h1>서로 잘 노력해보자</h1>
-        <p>
-          방법을 찾고 이해해보려고 해보자<br>
-          고집부리고 자존심 부리지 않을게
-        </p>
-        <button onclick="go(3)">응 나도 노력할게</button>
-        <button onclick="go(4)">아니 나는 더 못하겠어</button>
-      `,
-
-      /* 2️⃣ 첫 거절 */
-      `
-        <h1>알겠어</h1>
-        <p>
-          네 마음도 중요하니까<br>
-          그래도 한 번만 더 들어줄래?
-        </p>
-        <button onclick="go(0)">돌아가기</button>
-      `,
-
-      /* 3️⃣ 그래서 말인데 */
-      `
-        <h1>그래서 말인데</h1>
-        <p>우리 다시 잘 지내볼 수 있을까?</p>
-        <button id="yes" onclick="go(5)">웅 나도 미안해 사랑해 💖</button>
-        <button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>
-      `,
-
-      /* 4️⃣ 두 번째 거절 */
-      `
-        <h1>에이…</h1>
-        <p>
-          노력할게 눌러야지 다시 해야지 🥺<br>
-          우리 여기까지 왔잖아
-        </p>
-        <button onclick="go(1)">돌아가기</button>
-      `,
-
-      /* 5️⃣ 엔딩 */
-      `
-        <h1>웅 나도 사랑해 이기호 💗</h1>
-        <p>
-          앞으로도 잘 부탁해<br>
-          나도 더 잘할게
-        </p>
-      `
-    ];
-
-    go(0);
-  </script>
+// 초기 화면 렌더링
+render();
+</script>
 </body>
 </html>
