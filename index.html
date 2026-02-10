@@ -32,14 +32,6 @@ font-size:55px; color:#ff3366; font-weight:bold; white-space: pre-line; pointer-
 
 /* 마지막 페이지 배경 하트 */
 #bgHeartsContainer { position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none; }
-
-/* 비 내리는 애니메이션 */
-.rain { position:absolute; width:2px; height:15px; background:rgba(255,255,255,0.7); animation:fall linear infinite; }
-@keyframes fall { 0%{transform:translateY(-20px);} 100%{transform:translateY(100vh);} }
-
-/* 번개 */
-.lightning { position:absolute; width:100%; height:100%; top:0; left:0; background:white; opacity:0; animation:flash 1s ease-in-out; }
-@keyframes flash { 0%,20%,50%,80%,100%{opacity:0;} 25%,55%{opacity:0.7;} 30%,60%{opacity:0;} }
 </style>
 </head>
 <body>
@@ -100,7 +92,6 @@ function showFirstReject(){
     <p style="color:white;">더 들어주면 좋겠어 🥲🙏</p>
     <button onclick="backToStep(stepBackup)">돌아가기</button>`;
   document.body.style.background='#111';
-  addRain();
 }
 
 // 두 번째 단계 거절
@@ -111,13 +102,13 @@ function showSecondReject(){
     <p style="color:white;">아니야 할 수 있잖아 🥲🥲🙏🙏</p>
     <button onclick="backToStep(stepBackup)">돌아가기</button>`;
   document.body.style.background='#111';
-  addLightning();
 }
 
-// 폭죽 하트
+// 폭죽 하트 + 마지막 페이지 배경 하트
 function spawnHearts(){
   document.getElementById("scene").innerHTML="";
   
+  // 큰 메시지
   const message=document.createElement("div");
   message.id="finalMessage";
   message.innerText="정윤이에게\n화해의 손길을\n내밀어주세요";
@@ -138,37 +129,17 @@ function spawnHearts(){
   }
 
   // 마지막 페이지에만 은은한 배경 하트
-  generateBackgroundHearts();
-}
-
-// 마지막 페이지 배경 하트
-function generateBackgroundHearts(){
   const container=document.getElementById('bgHeartsContainer'); 
   container.innerHTML='';
-  if(step === scenes.length-1){ 
-    for(let i=0;i<100;i++){
-      const heart=document.createElement('div');
-      heart.innerText='💖';
-      heart.style.left=Math.random()*100+'%';
-      heart.style.top=Math.random()*100+'%';
-      heart.style.fontSize=(10+Math.random()*15)+'px';
-      container.appendChild(heart);
-    }
+  for(let i=0;i<100;i++){
+    const heart=document.createElement('div');
+    heart.innerText='💖';
+    heart.style.left=Math.random()*100+'%';
+    heart.style.top=Math.random()*100+'%';
+    heart.style.fontSize=(10+Math.random()*15)+'px';
+    container.appendChild(heart);
   }
 }
-
-// 비 내리기
-function addRain(){ for(let i=0;i<100;i++){
-  const drop=document.createElement('div'); drop.className='rain';
-  drop.style.left=Math.random()*100+'%';
-  drop.style.animationDuration=(0.5+Math.random()*1.5)+'s';
-  document.body.appendChild(drop);
-}}
-
-// 번개
-function addLightning(){ const flash=document.createElement('div');
-flash.className='lightning'; document.body.appendChild(flash);
-setTimeout(()=>flash.remove(),1000); }
 
 // 초기 렌더
 function render(){
@@ -181,6 +152,8 @@ render();
 </script>
 </body>
 </html>
+
+
 
 
 
