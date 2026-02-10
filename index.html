@@ -1,46 +1,55 @@
-// 은은한 배경 하트
-function generateBackgroundHearts(){
-  const container=document.getElementById('bgHeartsContainer');
-  container.innerHTML='';
-  for(let i=0;i<100;i++){
-    const heart=document.createElement('div');
-    heart.innerText='💖';
-    heart.style.left=Math.random()*100+'%';
-    heart.style.top=Math.random()*100+'%';
-    heart.style.fontSize=(10+Math.random()*15)+'px'; // 작은 하트
-    heart.style.color='rgba(255,50,100,0.1)';
-    container.appendChild(heart);
-  }
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정윤이의 화해신청</title>
+<meta property="og:title" content="정윤이의 화해신청">
+<meta property="og:description" content="정윤이의 화해신청">
+<meta property="og:type" content="website">
+<style>
+body {
+  margin:0;
+  font-family:'Arial',sans-serif;
+  text-align:center;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  transition:background 1s;
+  overflow:hidden;
+  background-size:cover;
 }
-generateBackgroundHearts();
 
-// 마지막 폭죽 하트
-function spawnHearts(){
-  document.getElementById("scene").innerHTML="";
-  
-  // 메시지
-  const message=document.createElement("div");
-  message.id="finalMessage";
-  message.style.fontSize='54px'; // 글자 -1t
-  message.innerText="정윤이에게\n화해의 손길을\n내밀어주세요";
-  document.body.appendChild(message);
-
-  // 폭죽 하트 생성
-  for(let i=0;i<80;i++){
-    const heart=document.createElement("div");
-    heart.className="heart";
-    heart.style.position="absolute";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.top=Math.random()*100+"vh";
-    heart.style.fontSize=(23+Math.random()*32)+"px"; // 23~55
-    const colors=['#ff3366','#ff6699','#ff99cc','#ff99ff','#ffb6d6'];
-    heart.style.color=colors[Math.floor(Math.random()*colors.length)];
-    heart.innerText="💖";
-    document.body.appendChild(heart);
-    // 사라지는 타이밍
-    setTimeout(()=>heart.remove(),2000+Math.random()*1500);
-  }
+h1 { font-size:23px; line-height:1.2; animation:fadeIn 1s forwards; opacity:0; }
+p { font-size:21px; line-height:1.5; white-space:pre-line; animation:fadeIn 1s forwards; opacity:0; }
+button {
+  padding:0.5em 1em; font-size:21px; margin:1em;
+  cursor:pointer; border-radius:10px; border:none;
+  transition: all 0.2s;
 }
+button:hover { transform: scale(1.1); background-color:#ffd6e0; }
+
+.heart { position:absolute; animation: float 2s linear forwards, rotate 1.5s linear infinite; pointer-events:none; }
+@keyframes float { 0%{transform:translateY(0) scale(1); opacity:1} 50%{transform:translateY(-150px) scale(1.2); opacity:0.7} 100%{transform:translateY(-300px) scale(1.5); opacity:0} }
+@keyframes rotate {0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);}}
+
+.fade-in { animation:fadeIn 1s forwards; opacity:0;}
+@keyframes fadeIn { to{opacity:1;} }
+
+/* 비 내리는 효과 */
+.rain { position:absolute; width:2px; height:15px; background:rgba(255,255,255,0.7); animation:fall linear infinite; }
+@keyframes fall { 0%{transform:translateY(-20px);} 100%{transform:translateY(100vh);} }
+
+/* 번개 효과 */
+.lightning { position:absolute; width:100%; height:100%; top:0; left:0; background:white; opacity:0; animation:flash 1s ease-in-out; }
+@keyframes flash { 0%,20%,50%,80%,100%{opacity:0;} 25%,55%{opacity:0.7;} 30%,60%{opacity:0;} }
+
+/* 마지막 메시지 */
+#finalMessage {
+  position:absolute; top:30%; left:50%;
+  transform
+
 
 
 
