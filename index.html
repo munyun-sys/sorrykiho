@@ -17,47 +17,36 @@
     overflow: hidden;
   }
   h1 {
-    font-size: 50vw; /* 글자 100배 크게 느낌 */
-    line-height: 1;
+    font-size: 72px; /* 워드 72pt 느낌 */
+    line-height: 1.2;
   }
   p {
-    font-size: 30vw; /* 글자 엄청 크게 */
+    font-size: 48px; /* 워드 48pt 느낌 */
   }
   button {
-    padding: 2em 4em;
-    font-size: 20vw; /* 버튼도 폭발적으로 큼 */
+    padding: 1em 2em;
+    font-size: 48px;
     margin: 1em;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 15px;
     border: none;
     transition: all 0.2s;
   }
   button:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
   .heart {
     position: absolute;
     color: #ff3366;
-    font-size: 20vw; /* 하트 엄청 큼 */
+    font-size: 48px; /* 기본 하트 크기 */
     animation: float 2s linear infinite;
     pointer-events: none;
   }
   @keyframes float {
     0% { transform: translateY(0) scale(1); opacity:1; }
-    50% { transform: translateY(-300px) scale(2); opacity:0.7; }
-    100% { transform: translateY(-600px) scale(3); opacity:0; }
+    50% { transform: translateY(-150px) scale(1.5); opacity:0.7; }
+    100% { transform: translateY(-300px) scale(2); opacity:0; }
   }
 </style>
 </head>
-<body>
-<div id="scene"></div>
-
-<script>
-let step = 0;
-
-const scenes = [
-  { html: `<h1>오빠 우리 화해하자</h1><p>나도 나를 다 모르면서 이해받고 싶어만 한 것 같아<br>노력해주는 거 알면서도 이기적으로 행동해서 미안해</p><button onclick="next()">어디 더 말해봐</button><button onclick="backToStart()">아니 아직 시간이 더 필요해</button>`,
-    bg: 'linear-gradient(to bottom, #a0cfff, #ffffff)'},
-  { html: `<h1>서로 잘 노력해보자</h1><p>방법을 찾고 이해해보려고 해보자<br>고집부리고 자존심 부리지 않을게</p><button onclick="next()">응 나도 노력할게</button><button onclick="backToScene(0)">아니 나는 더 못하겠어</button>`,
-    bg: 'linear-gradient(to bottom, #c6f1d6, #f0fff4)'},
-  { html: `<h1>그래서 말인데</h1><p>우리 다시 잘 지내볼 수 있을까?</p><button id="yes" onclick="next()">웅 나도 미안해 사랑해 💖
+<
