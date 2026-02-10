@@ -14,16 +14,17 @@
     flex-direction: column;
     justify-content: center;
     transition: background 1s;
+    overflow: hidden;
   }
   h1 {
-    font-size: 6vw; /* 반응형 글자 */
+    font-size: 10vw; /* 글자 훨씬 큼 */
   }
   p {
-    font-size: 4vw;
+    font-size: 6vw; /* 글자 크게 */
   }
   button {
     padding: 1em 2em;
-    font-size: 4vw;
+    font-size: 5vw; /* 버튼도 크게 */
     margin: 1em;
     cursor: pointer;
     border-radius: 10px;
@@ -32,6 +33,18 @@
   }
   button:hover {
     transform: scale(1.1);
+  }
+  .heart {
+    position: absolute;
+    color: #ff3366;
+    font-size: 5vw;
+    animation: float 2s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes float {
+    0% { transform: translateY(0) scale(1); opacity:1; }
+    50% { transform: translateY(-150px) scale(1.5); opacity:0.7; }
+    100% { transform: translateY(-300px) scale(2); opacity:0; }
   }
 </style>
 </head>
@@ -75,7 +88,7 @@ const scenes = [
     html: `
       <h1>웅 나도 사랑해 이기호</h1>
       <p>앞으로도 잘 부탁해<br>앞으로 나도 잘할게</p>
-      <button id="yes" onclick="next()">💖 하트 뿅뿅 💖</button>
+      <button id="yes" onclick="spawnHearts()">💖 하트 뿅뿅 💖</button>
       <button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>
     `,
     bg: 'linear-gradient(to bottom, #ffd6e0, #ffb6d6)' // 하트 뿅뿅
@@ -94,24 +107,29 @@ function next() {
 
 function moveNo() {
   const noBtn = document.getElementById("no");
-  const x = Math.random() * (window.innerWidth - 120);
-  const y = Math.random() * (window.innerHeight - 60);
+  const x = Math.random() * (window.innerWidth - 150);
+  const y = Math.random() * (window.innerHeight - 80);
   noBtn.style.position = "absolute";
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 }
 
-// 뒤로 돌아가기 버튼
-function backToStart() {
-  step = 0;
-  render();
-}
-function backToScene(num) {
-  step = num;
-  render();
+function backToStart() { step = 0; render(); }
+function backToScene(num) { step = num; render(); }
+
+// 하트 생성
+function spawnHearts() {
+  for(let i=0; i<20; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (5+Math.random()*5) + "vw"; // 랜덤 크기
+    heart.innerText = "💖";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2000 + Math.random()*2000); // 2~4초 후 삭제
+  }
 }
 
-// 초기 화면 렌더링
 render();
 </script>
 </body>
