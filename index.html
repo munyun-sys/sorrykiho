@@ -76,7 +76,7 @@ const scenes = [
     html: `<h1>서로 잘 노력해보자</h1>
 <p>방법을 찾고 이해해보려고 해보자<br>고집부리고 자존심 부리지 않을게</p>
 <button onclick="next()">응 나도 노력할게</button>
-<button onclick="backToScene(0)">아니 나는 더 못하겠어</button>`,
+<button onclick="backToScene(1)">아니 나는 더 못하겠어</button>`,
     bg: 'linear-gradient(to bottom, #c6f1d6, #f0fff4)'
   },
   {
@@ -107,6 +107,7 @@ function next() {
 
 function moveNo() {
   const noBtn = document.getElementById("no");
+  if (!noBtn) return;
   const x = Math.random() * (window.innerWidth - 120);
   const y = Math.random() * (window.innerHeight - 60);
   noBtn.style.position = "absolute";
@@ -114,16 +115,18 @@ function moveNo() {
   noBtn.style.top = y + "px";
 }
 
+// 돌아가기 버튼
 function backToStart() { step = 0; render(); }
 function backToScene(num) { step = num; render(); }
 
+// 하트 폭죽
 function spawnHearts() {
-  for(let i=0; i<40; i++) { // 폭죽 느낌 더 풍성
+  for(let i=0; i<40; i++) {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.style.left = Math.random()*100 + "vw";
     heart.style.top = Math.random()*100 + "vh";
-    heart.style.fontSize = (23 + Math.random()*32) + "px"; // 23~55px 랜덤
+    heart.style.fontSize = (23 + Math.random()*32) + "px"; // 23~55px
     heart.innerText = "💖";
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 1500 + Math.random()*1500);
@@ -134,6 +137,8 @@ render();
 </script>
 </body>
 </html>
+
+
 
 
 
