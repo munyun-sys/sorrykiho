@@ -17,18 +17,18 @@
     overflow: hidden;
   }
   h1 {
-    font-size: 72px; /* 워드 72pt 느낌 */
+    font-size: 28px; /* 조정: 폰에서도 딱 좋은 크기 */
     line-height: 1.2;
   }
   p {
-    font-size: 48px; /* 워드 48pt 느낌 */
+    font-size: 24px;
   }
   button {
-    padding: 1em 2em;
-    font-size: 48px;
+    padding: 0.5em 1em;
+    font-size: 24px;
     margin: 1em;
     cursor: pointer;
-    border-radius: 15px;
+    border-radius: 10px;
     border: none;
     transition: all 0.2s;
   }
@@ -38,14 +38,14 @@
   .heart {
     position: absolute;
     color: #ff3366;
-    font-size: 48px;
+    font-size: 28px;
     animation: float 2s linear infinite;
     pointer-events: none;
   }
   @keyframes float {
     0% { transform: translateY(0) scale(1); opacity:1; }
-    50% { transform: translateY(-150px) scale(1.5); opacity:0.7; }
-    100% { transform: translateY(-300px) scale(2); opacity:0; }
+    50% { transform: translateY(-150px) scale(1.2); opacity:0.7; }
+    100% { transform: translateY(-300px) scale(1.5); opacity:0; }
   }
 </style>
 </head>
@@ -78,8 +78,8 @@ function next() {
 
 function moveNo() {
   const noBtn = document.getElementById("no");
-  const x = Math.random() * (window.innerWidth - 150);
-  const y = Math.random() * (window.innerHeight - 80);
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 60);
   noBtn.style.position = "absolute";
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
@@ -93,7 +93,7 @@ function spawnHearts() {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.style.left = Math.random()*100 + "vw";
-    heart.style.fontSize = (48 + Math.random()*24) + "px"; // 48~72px 랜덤
+    heart.style.fontSize = (28 + Math.random()*8) + "px"; // 28~36px 랜덤
     heart.innerText = "💖";
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 2000 + Math.random()*2000);
@@ -104,3 +104,5 @@ render();
 </script>
 </body>
 </html>
+
+
