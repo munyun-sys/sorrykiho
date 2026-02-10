@@ -21,11 +21,11 @@
     transition: background 1s;
     overflow: hidden;
   }
-  h1 { font-size: 26px; line-height:1.2; }
-  p { font-size: 24px; line-height:1.6; white-space: pre-line; }
+  h1 { font-size: 25px; line-height:1.2; }
+  p { font-size: 23px; line-height:1.5; white-space: pre-line; }
   button {
     padding:0.5em 1em;
-    font-size:22px;
+    font-size:21px;
     margin:1em;
     cursor:pointer;
     border-radius:10px;
@@ -45,6 +45,17 @@
     50% { transform: translateY(-150px) scale(1.2); opacity:0.7; }
     100% { transform: translateY(-300px) scale(1.5); opacity:0; }
   }
+
+  #finalMessage {
+    position:absolute;
+    top:30%;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:26px;
+    color:#ff3366;
+    font-weight:bold;
+    pointer-events:none;
+  }
 </style>
 </head>
 <body>
@@ -59,14 +70,14 @@ const scenes = [
     html:`<h1>오빠 우리 화해하자</h1>
 <p>나도 나를 다 모르면서 이해받고 싶어만 한 것 같아\n노력해주는 거 알면서도\n이기적으로 행동해서 미안해</p>
 <button onclick="next()">어디 더 말해봐</button>
-<button onclick="showFirstReject()">아직 시간이 더 필요해</button>`,
+<button onclick="showFirstReject()">아니 아직 시간이 더 필요해</button>`,
     bg:'linear-gradient(to bottom, #a0cfff, #ffffff)'
   },
   {
     html:`<h1>서로 잘 노력해보자</h1>
 <p>방법을 찾고 이해해보려고 해보자<br>고집부리고 자존심 부리지 않을게</p>
 <button onclick="next()">응 나도 노력할게</button>
-<button onclick="showSecondReject()">아니 나는 더 못하겠어</button>`,
+<button onclick="showSecondReject()">아니야 나는 더 못해</button>`,
     bg:'linear-gradient(to bottom, #c6f1d6, #f0fff4)'
   },
   {
@@ -90,6 +101,7 @@ function render() {
   document.body.style.background = scenes[step].bg;
 }
 
+// 다음 단계
 function next() {
   if(step < scenes.length-1) step++;
   render();
@@ -113,7 +125,8 @@ function backToStep(num){ step=num; render(); }
 function showFirstReject(){
   stepBackup = step;
   document.getElementById("scene").innerHTML=`
-    <h1>괜찮아, 천천히 생각해봐도 돼</h1>
+    <h1>아니야</h1>
+    <p>더 들어주면 좋겠어 제발 😢🙏</p>
     <button onclick="backToStep(stepBackup)">돌아가기</button>`;
   document.body.style.background='linear-gradient(to bottom, #e0f7ff, #ffffff)';
 }
@@ -122,14 +135,20 @@ function showFirstReject(){
 function showSecondReject(){
   stepBackup = step;
   document.getElementById("scene").innerHTML=`
-    <h1>노력할게 눌러야지! 다시 해보자</h1>
+    <h1>아니야</h1>
+    <p>너는 할 수 있어 😢🙏</p>
     <button onclick="backToStep(stepBackup)">돌아가기</button>`;
   document.body.style.background='linear-gradient(to bottom, #fff0f0, #ffe5e5)';
 }
 
 // 하트 폭죽
 function spawnHearts(){
-  for(let i=0;i<40;i++){
+  const message = document.createElement("div");
+  message.id="finalMessage";
+  message.innerText="정윤이에게 화해하자고 손을 내밀어주세요";
+  document.body.appendChild(message);
+
+  for(let i=0;i<50;i++){
     const heart=document.createElement("div");
     heart.className="heart";
     heart.style.left=Math.random()*100+"vw";
@@ -145,6 +164,8 @@ render();
 </script>
 </body>
 </html>
+
+
 
 
 
