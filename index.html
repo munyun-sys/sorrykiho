@@ -32,8 +32,9 @@ button:hover { transform: scale(1.1); background-color:#ffd6e0; }
   font-size:55px; color:#ff3366; font-weight:bold; white-space: pre-line; pointer-events:none; text-align:center;
 }
 
-/* 마지막 페이지 배경 하트 */
-#bgHeartsContainer { position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none; z-index:-1; }
+/* 마지막 페이지 바둑판 하트 패턴 */
+#bgHeartsContainer { position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none; z-index:-1; display:flex; flex-wrap:wrap; align-content:flex-start; justify-content:space-around; opacity:0.25; }
+.bg-heart { font-size:20px; margin:20px; color:#ffb6d6; }
 
 /* 비 애니메이션 */
 .rain {
@@ -107,7 +108,7 @@ function backToStep(num){ step=num; render(); }
 function showFirstReject(){
   stepBackup=step;
   document.getElementById("scene").innerHTML=`
-    <h1 style="color:white;">아니야 😢</h1>
+    <h1 style="color:white;">아직 시간이 더 필요해 😢</h1>
     <p style="color:white;">더 들어주면 좋겠어 🥲🙏</p>
     <button onclick="backToStep(stepBackup)">돌아가기</button>`;
   startRain();
@@ -118,7 +119,7 @@ function showFirstReject(){
 function showSecondReject(){
   stepBackup=step;
   document.getElementById("scene").innerHTML=`
-    <h1 style="color:white;">아니야 😢</h1>
+    <h1 style="color:white;">아니야 나는 더 못해 😢</h1>
     <p style="color:white;">아니야 할 수 있잖아 🥲🥲🙏🙏</p>
     <button onclick="backToStep(stepBackup)">돌아가기</button>`;
   startRain(true);
@@ -151,17 +152,17 @@ function spawnHearts(){
     setTimeout(()=>heart.remove(),2000+Math.random()*1500);
   }
 
-  // 마지막 페이지 은은한 하트 패턴
+  // 마지막 페이지 은은한 하트 패턴 (바둑판 형태)
   const container=document.getElementById('bgHeartsContainer'); 
   container.innerHTML='';
-  for(let i=0;i<50;i++){
-    const heart=document.createElement('div');
-    heart.innerText='💖';
-    heart.style.left=Math.random()*100+'%';
-    heart.style.top=Math.random()*100+'%';
-    heart.style.fontSize=(10+Math.random()*15)+'px';
-    heart.style.opacity=0.2+Math.random()*0.3;
-    container.appendChild(heart);
+  const rows=5; const cols=5;
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const heart=document.createElement('div');
+      heart.className='bg-heart';
+      heart.innerText='💖';
+      container.appendChild(heart);
+    }
   }
 }
 
@@ -200,6 +201,7 @@ render();
 </script>
 </body>
 </html>
+
 
 
 
