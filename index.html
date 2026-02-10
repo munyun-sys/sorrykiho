@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정윤이의 화해 신청</title>
+<title>정윤이의 화해신청</title>
 <style>
   body {
     margin: 0;
@@ -17,15 +17,15 @@
     overflow: hidden;
   }
   h1 {
-    font-size: 28px; /* 조정: 폰에서도 딱 좋은 크기 */
+    font-size: 26px; /* 폰에서 보기 딱 좋은 크기 */
     line-height: 1.2;
   }
   p {
-    font-size: 24px;
+    font-size: 20px;
   }
   button {
     padding: 0.5em 1em;
-    font-size: 24px;
+    font-size: 20px;
     margin: 1em;
     cursor: pointer;
     border-radius: 10px;
@@ -56,7 +56,7 @@
 let step = 0;
 
 const scenes = [
-  { html: `<h1>오빠 우리 화해하자</h1><p>나도 나를 다 모르면서 이해받고 싶어만 한 것 같아<br>노력해주는 거 알면서도 이기적으로 행동해서 미안해</p><button onclick="next()">어디 더 말해봐</button><button onclick="backToStart()">아니 아직 시간이 더 필요해</button>`,
+  { html: `<h1>오빠 우리 화해하자</h1><p>나도 나를 다 모르면서 이해받고 싶어만 한 것 같아<br>노력해주는 거 알면서도 이기적으로 행동해서 미안해</p><button onclick="next()">어디 더 말해봐</button><button onclick="backToStart()">아직 시간이 더 필요해</button>`,
     bg: 'linear-gradient(to bottom, #a0cfff, #ffffff)'},
   { html: `<h1>서로 잘 노력해보자</h1><p>방법을 찾고 이해해보려고 해보자<br>고집부리고 자존심 부리지 않을게</p><button onclick="next()">응 나도 노력할게</button><button onclick="backToScene(0)">아니 나는 더 못하겠어</button>`,
     bg: 'linear-gradient(to bottom, #c6f1d6, #f0fff4)'},
@@ -104,5 +104,6 @@ render();
 </script>
 </body>
 </html>
+
 
 
