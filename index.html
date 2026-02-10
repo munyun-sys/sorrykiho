@@ -31,7 +31,7 @@
   p {
     font-size: 20px;
     line-height: 1.6;
-    white-space: pre-line; /* 줄바꿈 유지 */
+    white-space: pre-line; /* 줄바꿈 유지, 공백 없음 */
   }
   button {
     padding: 0.5em 1em;
@@ -48,7 +48,6 @@
   .heart {
     position: absolute;
     color: #ff3366;
-    font-size: 28px;
     animation: float 2s linear forwards;
     pointer-events: none;
   }
@@ -66,14 +65,34 @@
 let step = 0;
 
 const scenes = [
-  { html: `<h1>오빠 우리 화해하자</h1><p>나도 나를 다 모르면서 이해받고 싶어만 한 것 같아\n\n노력해주는 거 알면서도\n\n이기적으로 행동해서 미안해</p><button onclick="next()">어디 더 말해봐</button><button onclick="backToStart()">아직 시간이 더 필요해</button>`,
-    bg: 'linear-gradient(to bottom, #a0cfff, #ffffff)'},
-  { html: `<h1>서로 잘 노력해보자</h1><p>방법을 찾고 이해해보려고 해보자<br>고집부리고 자존심 부리지 않을게</p><button onclick="next()">응 나도 노력할게</button><button onclick="backToScene(0)">아니 나는 더 못하겠어</button>`,
-    bg: 'linear-gradient(to bottom, #c6f1d6, #f0fff4)'},
-  { html: `<h1>그래서 말인데</h1><p>우리 다시 잘 지내볼 수 있을까?</p><button id="yes" onclick="next()">웅 나도 미안해 사랑해 💖</button><button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>`,
-    bg: 'linear-gradient(to bottom, #fff0e0, #ffe5c0)'},
-  { html: `<h1>웅 나도 사랑해 이기호</h1><p>앞으로도 잘 부탁해<br>앞으로 나도 잘할게</p><button id="yes" onclick="spawnHearts()">💖 하트 폭죽 💖</button><button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>`,
-    bg: 'linear-gradient(to bottom, #ffd6e0, #ffb6d6)'}
+  {
+    html: `<h1>오빠 우리 화해하자</h1>
+<p>나도 나를 다 모르면서 이해받고 싶어만 한 것 같아\n노력해주는 거 알면서도\n이기적으로 행동해서 미안해</p>
+<button onclick="next()">어디 더 말해봐</button>
+<button onclick="backToStart()">아직 시간이 더 필요해</button>`,
+    bg: 'linear-gradient(to bottom, #a0cfff, #ffffff)'
+  },
+  {
+    html: `<h1>서로 잘 노력해보자</h1>
+<p>방법을 찾고 이해해보려고 해보자<br>고집부리고 자존심 부리지 않을게</p>
+<button onclick="next()">응 나도 노력할게</button>
+<button onclick="backToScene(0)">아니 나는 더 못하겠어</button>`,
+    bg: 'linear-gradient(to bottom, #c6f1d6, #f0fff4)'
+  },
+  {
+    html: `<h1>그래서 말인데</h1>
+<p>우리 다시 잘 지내볼 수 있을까?</p>
+<button id="yes" onclick="next()">웅 나도 미안해 사랑해 💖</button>
+<button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>`,
+    bg: 'linear-gradient(to bottom, #fff0e0, #ffe5c0)'
+  },
+  {
+    html: `<h1>웅 나도 사랑해 이기호</h1>
+<p>앞으로도 잘 부탁해<br>앞으로 나도 잘할게</p>
+<button id="yes" onclick="spawnHearts()">💖 하트 폭죽 💖</button>
+<button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>`,
+    bg: 'linear-gradient(to bottom, #ffd6e0, #ffb6d6)'
+  }
 ];
 
 function render() {
@@ -99,7 +118,7 @@ function backToStart() { step = 0; render(); }
 function backToScene(num) { step = num; render(); }
 
 function spawnHearts() {
-  for(let i=0; i<30; i++) { // 폭죽 느낌으로 더 많이
+  for(let i=0; i<40; i++) { // 폭죽 느낌 더 풍성
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.style.left = Math.random()*100 + "vw";
@@ -107,7 +126,6 @@ function spawnHearts() {
     heart.style.fontSize = (23 + Math.random()*32) + "px"; // 23~55px 랜덤
     heart.innerText = "💖";
     document.body.appendChild(heart);
-    // 폭죽처럼 터졌다 사라지게
     setTimeout(() => heart.remove(), 1500 + Math.random()*1500);
   }
 }
@@ -116,6 +134,7 @@ render();
 </script>
 </body>
 </html>
+
 
 
 
