@@ -38,7 +38,7 @@
   .heart {
     position: absolute;
     color: #ff3366;
-    font-size: 48px; /* 기본 하트 크기 */
+    font-size: 48px;
     animation: float 2s linear infinite;
     pointer-events: none;
   }
@@ -49,5 +49,58 @@
   }
 </style>
 </head>
-<
+<body>
+<div id="scene"></div>
 
+<script>
+let step = 0;
+
+const scenes = [
+  { html: `<h1>오빠 우리 화해하자</h1><p>나도 나를 다 모르면서 이해받고 싶어만 한 것 같아<br>노력해주는 거 알면서도 이기적으로 행동해서 미안해</p><button onclick="next()">어디 더 말해봐</button><button onclick="backToStart()">아니 아직 시간이 더 필요해</button>`,
+    bg: 'linear-gradient(to bottom, #a0cfff, #ffffff)'},
+  { html: `<h1>서로 잘 노력해보자</h1><p>방법을 찾고 이해해보려고 해보자<br>고집부리고 자존심 부리지 않을게</p><button onclick="next()">응 나도 노력할게</button><button onclick="backToScene(0)">아니 나는 더 못하겠어</button>`,
+    bg: 'linear-gradient(to bottom, #c6f1d6, #f0fff4)'},
+  { html: `<h1>그래서 말인데</h1><p>우리 다시 잘 지내볼 수 있을까?</p><button id="yes" onclick="next()">웅 나도 미안해 사랑해 💖</button><button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>`,
+    bg: 'linear-gradient(to bottom, #fff0e0, #ffe5c0)'},
+  { html: `<h1>웅 나도 사랑해 이기호</h1><p>앞으로도 잘 부탁해<br>앞으로 나도 잘할게</p><button id="yes" onclick="spawnHearts()">💖 하트 뿅뿅 💖</button><button id="no" onmouseover="moveNo()">아직 생각 더 해봐야겠음 🙃</button>`,
+    bg: 'linear-gradient(to bottom, #ffd6e0, #ffb6d6)'}
+];
+
+function render() {
+  document.getElementById("scene").innerHTML = scenes[step].html;
+  document.body.style.background = scenes[step].bg;
+}
+
+function next() {
+  if(step < scenes.length-1) step++;
+  render();
+}
+
+function moveNo() {
+  const noBtn = document.getElementById("no");
+  const x = Math.random() * (window.innerWidth - 150);
+  const y = Math.random() * (window.innerHeight - 80);
+  noBtn.style.position = "absolute";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+function backToStart() { step = 0; render(); }
+function backToScene(num) { step = num; render(); }
+
+function spawnHearts() {
+  for(let i=0; i<20; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (48 + Math.random()*24) + "px"; // 48~72px 랜덤
+    heart.innerText = "💖";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2000 + Math.random()*2000);
+  }
+}
+
+render();
+</script>
+</body>
+</html>
